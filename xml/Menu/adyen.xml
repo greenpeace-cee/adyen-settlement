@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/adyen/notification</path>
+    <page_callback>CRM_Adyen_Page_Notification</page_callback>
+    <title>Adyen Notification</title>
+    <access_callback>1</access_callback>
+    <is_public>true</is_public>
+  </item>
+</menu>
