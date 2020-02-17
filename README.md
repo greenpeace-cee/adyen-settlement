@@ -1,5 +1,7 @@
 # Adyen Payment Processor
 
+[![CircleCI](https://circleci.com/gh/greenpeace-cee/adyen.svg?style=svg)](https://circleci.com/gh/greenpeace-cee/adyen)
+
 (*FIXME: In one or two paragraphs, describe what the extension does and why one would download it. *)
 
 The extension is licensed under [AGPL-3.0](LICENSE.txt).
