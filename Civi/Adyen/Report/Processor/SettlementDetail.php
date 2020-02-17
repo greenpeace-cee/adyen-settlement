@@ -35,7 +35,9 @@ class SettlementDetail {
   ];
 
   /**
-   * @var array AdyenReportLine
+   * AdyenReportLine
+   *
+   * @var array
    */
   private $reportLine;
 

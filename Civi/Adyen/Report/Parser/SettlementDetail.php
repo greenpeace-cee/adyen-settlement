@@ -47,7 +47,9 @@ class SettlementDetail {
   ];
 
   /**
-   * @var array CSV content in format [['Company Account' => 'foo', ...], ...]
+   * CSV content in format [['Company Account' => 'foo', ...], ...]
+   *
+   * @var array
    */
   protected $data = [];
   protected $notificationId;

@@ -8,7 +8,7 @@
 class CRM_Adyen_Upgrader_Base {
 
   /**
-   * @var varies, subclass of this
+   * @var varies
    */
   public static $instance;
 
@@ -18,23 +18,30 @@ class CRM_Adyen_Upgrader_Base {
   protected $ctx;
 
   /**
-   * @var string, eg 'com.example.myextension'
+   * e.g. com.example.myextension
+   *
+   * @var string
    */
   protected $extensionName;
 
   /**
-   * @var string, full path to the extension's source tree
+   * full path to the extension's source tree
+   *
+   * @var string
    */
   protected $extensionDir;
 
   /**
-   * @var array(revisionNumber) sorted numerically
+   * numerically sorted revision numbers
+   *
+   * @var array
    */
   private $revisions;
 
   /**
-   * @var boolean
-   *   Flag to clean up extension revision data in civicrm_setting
+   * Flag to clean up extension revision data in civicrm_setting
+   *
+   * @var bool
    */
   private $revisionStorageIsDeprecated = FALSE;
 
