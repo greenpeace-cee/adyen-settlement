@@ -130,7 +130,7 @@ class SettlementDetail {
           );
         }
 
-        $updateParams['cancel_date'] = $this->reportLine['content']['Creation Date'];
+        $updateParams['cancel_date'] = '2020-09-07';
 
         if (empty($this->reportLine['content']['Gross Debit (GC)'])) {
           \Civi::log()->warning(
