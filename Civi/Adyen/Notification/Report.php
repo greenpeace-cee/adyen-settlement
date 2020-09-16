@@ -227,7 +227,7 @@ class Report {
       ->addOrderBy('line_number', 'ASC')
       ->execute();
     foreach ($reportLines as $reportLine) {
-      $reportProcessor = new Processor\SettlementDetail($reportLine);
+      $reportProcessor = new Processor\SettlementDetail($reportLine, $this->notification);
       if (!$reportProcessor->process()) {
         $success = FALSE;
       }

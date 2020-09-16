@@ -49,7 +49,7 @@ class Civi_Adyen_Report_Processor_SettlementDetailTest extends \PHPUnit\Framewor
     ]);
     $this->report = AdyenNotification::create()
       ->addValue('event_code_id', 1)
-      ->addValue('event_date', '2020-02-04')
+      ->addValue('event_date', '2020-02-24')
       ->addValue('psp_reference', 'settlement_detail_report_batch_1.csv')
       ->addValue('merchant_account', 'SampleMerchantAccount')
       ->addValue('notification', [])
@@ -132,7 +132,8 @@ class Civi_Adyen_Report_Processor_SettlementDetailTest extends \PHPUnit\Framewor
       ->execute()
       ->first();
     $reportProcessor = new Civi\Adyen\Report\Processor\SettlementDetail(
-      $this->createReportLine(1, [])
+      $this->createReportLine(1, []),
+      $this->report
     );
     $reportProcessor->process();
     $this->assertContributionDetailsMatch($contribution['id'], [
@@ -150,12 +151,13 @@ class Civi_Adyen_Report_Processor_SettlementDetailTest extends \PHPUnit\Framewor
         'Gross Credit (GC)' => '',
         'Net Debit (NC)' => '57.50',
         'Commission (NC)' => '7.50',
-      ])
+      ]),
+      $this->report
     );
     $reportProcessor->process();
     $this->assertContributionDetailsMatch($contribution['id'], [
       'contribution_status_id' => 3,
-      'cancel_date' => '2020-02-04 13:30:01',
+      'cancel_date' => '2020-02-24 00:00:00',
       'total_amount' => 50.00,
       'net_amount' => 41.50,
       'fee_amount' => 8.50,
@@ -166,7 +168,8 @@ class Civi_Adyen_Report_Processor_SettlementDetailTest extends \PHPUnit\Framewor
     $reportProcessor = new Civi\Adyen\Report\Processor\SettlementDetail(
       $this->createReportLine(3, [
         'Type' => 'ChargebackReversed',
-      ])
+      ]),
+      $this->report
     );
     $reportProcessor->process();
     $this->assertContributionDetailsMatch($contribution['id'], [
