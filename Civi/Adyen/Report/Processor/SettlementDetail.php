@@ -35,13 +35,22 @@ class SettlementDetail {
   ];
 
   /**
+   * Adyen Notification
+   *
+   * @var array
+   */
+
+  private $notification;
+
+  /**
    * AdyenReportLine
    *
    * @var array
    */
   private $reportLine;
 
-  public function __construct(array $reportLine) {
+  public function __construct(array $reportLine, array $notification) {
+    $this->notification = $notification;
     $this->reportLine = $reportLine;
   }
 
@@ -130,7 +139,7 @@ class SettlementDetail {
           );
         }
 
-        $updateParams['cancel_date'] = $this->reportLine['content']['Creation Date'];
+        $updateParams['cancel_date'] = $this->notification['event_date'];
 
         if (empty($this->reportLine['content']['Gross Debit (GC)'])) {
           \Civi::log()->warning(
