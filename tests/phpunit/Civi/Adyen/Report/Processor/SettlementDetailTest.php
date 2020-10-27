@@ -135,7 +135,7 @@ class Civi_Adyen_Report_Processor_SettlementDetailTest extends \PHPUnit\Framewor
       $this->createReportLine(1, []),
       $this->report
     );
-    $reportProcessor->process();
+    $this->assertTrue($reportProcessor->process());
     $this->assertContributionDetailsMatch($contribution['id'], [
       'contribution_status_id' => 1,
       'total_amount' => 50.00,
@@ -154,7 +154,7 @@ class Civi_Adyen_Report_Processor_SettlementDetailTest extends \PHPUnit\Framewor
       ]),
       $this->report
     );
-    $reportProcessor->process();
+    $this->assertTrue($reportProcessor->process());
     $this->assertContributionDetailsMatch($contribution['id'], [
       'contribution_status_id' => 3,
       'cancel_date' => '2020-02-24 00:00:00',
@@ -171,7 +171,7 @@ class Civi_Adyen_Report_Processor_SettlementDetailTest extends \PHPUnit\Framewor
       ]),
       $this->report
     );
-    $reportProcessor->process();
+    $this->assertTrue($reportProcessor->process());
     $this->assertContributionDetailsMatch($contribution['id'], [
       'contribution_status_id' => 1,
       'total_amount' => 50.00,
