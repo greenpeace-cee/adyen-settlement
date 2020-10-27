@@ -220,14 +220,20 @@ class Report {
 
   private function processReport() {
     $success = TRUE;
+    $notification = AdyenNotification::get()
+      ->addWhere('id', '=', $this->id)
+      ->execute()
+      ->first();
+
     $reportLines = AdyenReportLine::get()
       ->addWhere('adyen_notification_id', '=', $this->id)
       ->addWhere('status_id', '=', 1)
       ->addOrderBy('line_date', 'ASC')
       ->addOrderBy('line_number', 'ASC')
       ->execute();
+
     foreach ($reportLines as $reportLine) {
-      $reportProcessor = new Processor\SettlementDetail($reportLine, $this->notification);
+      $reportProcessor = new Processor\SettlementDetail($reportLine, $notification);
       if (!$reportProcessor->process()) {
         $success = FALSE;
       }
