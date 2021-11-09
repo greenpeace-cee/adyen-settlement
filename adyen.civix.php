@@ -7,9 +7,9 @@
  * extension.
  */
 class CRM_Adyen_ExtensionUtil {
-  const SHORT_NAME = "adyen";
-  const LONG_NAME = "adyen";
-  const CLASS_PREFIX = "CRM_Adyen";
+  const SHORT_NAME = 'adyen';
+  const LONG_NAME = 'adyen';
+  const CLASS_PREFIX = 'CRM_Adyen';
 
   /**
    * Translate a string using the extension's domain.
@@ -194,6 +194,8 @@ function _adyen_civix_civicrm_disable() {
  * @param $queue CRM_Queue_Queue, (for 'enqueue') the modifiable list of pending up upgrade tasks
  *
  * @return mixed
+ *   based on op. for 'check', returns array(boolean) (TRUE if upgrades are pending)
+ *   for 'enqueue', returns void
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_upgrade
  */
@@ -219,40 +221,16 @@ function _adyen_civix_upgrader() {
  * Search directory tree for files which match a glob pattern.
  *
  * Note: Dot-directories (like "..", ".git", or ".svn") will be ignored.
- * Note: In Civi 4.3+, delegate to CRM_Utils_File::findFiles()
+ * Note: Delegate to CRM_Utils_File::findFiles(), this function kept only
+ * for backward compatibility of extension code that uses it.
  *
  * @param string $dir base dir
  * @param string $pattern , glob pattern, eg "*.txt"
  *
- * @return array(string)
+ * @return array
  */
 function _adyen_civix_find_files($dir, $pattern) {
-  if (is_callable(['CRM_Utils_File', 'findFiles'])) {
-    return CRM_Utils_File::findFiles($dir, $pattern);
-  }
-
-  $todos = [$dir];
-  $result = [];
-  while (!empty($todos)) {
-    $subdir = array_shift($todos);
-    foreach (_adyen_civix_glob("$subdir/$pattern") as $match) {
-      if (!is_dir($match)) {
-        $result[] = $match;
-      }
-    }
-    if ($dh = opendir($subdir)) {
-      while (FALSE !== ($entry = readdir($dh))) {
-        $path = $subdir . DIRECTORY_SEPARATOR . $entry;
-        if ($entry{0} == '.') {
-        }
-        elseif (is_dir($path)) {
-          $todos[] = $path;
-        }
-      }
-      closedir($dh);
-    }
-  }
-  return $result;
+  return CRM_Utils_File::findFiles($dir, $pattern);
 }
 
 /**
@@ -362,7 +340,7 @@ function _adyen_civix_civicrm_themes(&$themes) {
  * @link http://php.net/glob
  * @param string $pattern
  *
- * @return array, possibly empty
+ * @return array
  */
 function _adyen_civix_glob($pattern) {
   $result = glob($pattern);
@@ -471,18 +449,16 @@ function _adyen_civix_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
  */
 function _adyen_civix_civicrm_entityTypes(&$entityTypes) {
-  $entityTypes = array_merge($entityTypes, array(
-    'CRM_Adyen_DAO_AdyenNotification' =>
-    array(
+  $entityTypes = array_merge($entityTypes, [
+    'CRM_Adyen_DAO_AdyenNotification' => [
       'name' => 'AdyenNotification',
       'class' => 'CRM_Adyen_DAO_AdyenNotification',
       'table' => 'civicrm_adyen_notification',
-    ),
-    'CRM_Adyen_DAO_AdyenReportLine' =>
-    array(
+    ],
+    'CRM_Adyen_DAO_AdyenReportLine' => [
       'name' => 'AdyenReportLine',
       'class' => 'CRM_Adyen_DAO_AdyenReportLine',
       'table' => 'civicrm_adyen_report_line',
-    ),
-  ));
+    ],
+  ]);
 }
